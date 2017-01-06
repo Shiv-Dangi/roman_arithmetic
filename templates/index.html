@@ -1,0 +1,181 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="">
+
+    <title>{% block title %}Roman Arithmetic{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="{% static 'css/ie10-viewport-bug-workaround.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for navbar -->
+    <link href="{% static 'css/navbar-fixed-top.css' %}" rel="stylesheet">
+
+    <!-- Sticky footer -->
+    <link href="{% static 'css/sticky-footer-navbar.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Roman Arithmetic</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <!-- Main Content and footer -->
+    <div class="container content">
+      {% block content %}
+        <div class="jumbotron">
+          <h3>Mathematical operation with roman numerals</h3>
+          <div class="form-inline">
+            <div class="form-group">
+              <input type="text" class="form-control" id="add1" placeholder="X">
+              <label for="">+</label>
+              <input type="text" class="form-control" id="add2" placeholder="X">
+              <label for="">=</label>
+              <input type="text" value="" id="addresult" placeholder="XX">
+            </div>
+            <button class="btn btn-default" onclick="roman('addition')">Submit</button>
+          </div><br/>
+
+          <div class="form-inline">
+            <div class="form-group">
+              <input type="text" class="form-control" id="subtract1" placeholder="XX">
+              <label for="">-</label>
+              <input type="text" class="form-control" id="subtract2" placeholder="X">
+              <label for="">=</label>
+              <input type="text" value="" id="subresult" placeholder="X">
+            </div>
+            <button class="btn btn-default" onclick="roman('subtraction')">Submit</button>
+          </div><br/>
+
+          <div class="form-inline">
+            <div class="form-group">
+              <input type="text" class="form-control" id="mult1" placeholder="X">
+              <label for="">*</label>
+              <input type="text" class="form-control" id="mult2" placeholder="X">
+              <label for="">=</label>
+              <input type="text" value="" id="mulresult" placeholder="C">
+            </div>
+            <button class="btn btn-default" onclick="roman('multiplication')">Submit</button>
+          </div><br/>
+
+          <div class="form-inline">
+            <div class="form-group">
+              <input type="text" class="form-control" id="devide1" placeholder="C">
+              <label for="">/</label>
+              <input type="text" class="form-control" id="devide2" placeholder="X">
+              <label for="">=</label>
+              <input type="text" value="" id="dvdresult" placeholder="X">
+            </div>
+            <button class="btn btn-default" onclick="roman('devide')">Submit</button>
+          </div>
+          <p>
+            This example is a quick exercise to illustrate, mathematical operations with roman numerals(I, V, X, L...) using python.
+            <br/>
+            for eg. <br/>
+            XL + X = L <br/>
+            C - I = XCIX <br/>
+            C / X = X <br/>
+            X * X = C
+          </p>
+        </div>
+      {% endblock %}
+      
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <p class="text-muted">&copy; 2017 <a href="">Terms of Service</a> | <a href="">Privacy Policy</a></p>
+          </div>
+          
+          <div class="col-md-4">
+          </div>
+          
+          <div class="col-md-4">
+            <p class="text-muted">Social links</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- jQuery -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+    <!-- custom javascript -->
+    <script type="text/javascript">
+      function roman(operation){
+        if (operation == "addition"){
+          var operand1 = document.getElementById('add1').value;
+          var operand2 = document.getElementById('add2').value;  
+        }
+        if (operation == "subtraction"){
+          var operand1 = document.getElementById('subtract1').value;
+          var operand2 = document.getElementById('subtract2').value;    
+        }
+        if (operation == "multiplication"){
+          var operand1 = document.getElementById('mult1').value;
+          var operand2 = document.getElementById('mult2').value;    
+        }
+        if (operation == "devide"){
+          var operand1 = document.getElementById('devide1').value;
+          var operand2 = document.getElementById('devide2').value;    
+        }
+        // console.log(operand1, operand2, operation);
+        var url = '/roman_operation/'
+        $.post(url ,{"operand1":operand1, "operand2":operand2, "operation": operation},function(data){
+          if (data['status'] == 'success'){
+            if (data['operation'] == "addition"){
+              document.getElementById('addresult').value = data['result'];
+            }
+            if (data['operation'] == "subtraction"){
+              document.getElementById('subresult').value = data['result'];
+            }
+            if (data['operation'] == "multiplication"){
+              document.getElementById('mulresult').value = data['result'];
+            }
+            if (data['operation'] == "devide"){
+              document.getElementById('dvdresult').value = data['result'];
+            }
+          }
+          else {
+            alert("Please enter valid input");
+          }
+        });
+      }
+    </script>
+</body>
+
+</html>
