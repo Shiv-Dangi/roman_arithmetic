@@ -6,7 +6,7 @@ Update:
 
     sudo apt-get update
 
-### Setup Virtual Environment
+Setup Virtual Environment
 
 Create virtual environment and activate it(For virtualenvwrapper you can use http://docs.python-guide.org/en/latest/dev/virtualenvs/)
 
