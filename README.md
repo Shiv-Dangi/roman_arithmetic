@@ -17,8 +17,8 @@ Create virtual environment and activate it(For virtualenvwrapper you can use htt
     sudo sh -c 'echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc'
     mkvirtualenv venv
     
-Clone github repo in your pc
-  
+Clone github repo in your pc                                       
+
     git clone https://github.com/Shiv-Dangi/roman_arithmetic
 
 Activate your virtualenv and Find requirements.txt file in cloned project and run
